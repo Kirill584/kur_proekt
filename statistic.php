@@ -57,6 +57,31 @@ if(isset($_GET['year'])){
     $label2 = 'Года автомобилей';
 
 }
+function get_status_year_sum(int $year){
+    global $mysql;
+    $query = "SELECT Status as status_name, COUNT(Status) as sum FROM drivers where year(EditDate) = $year Group By Status"; 
+    $result = mysqli_query($mysql, $query);
+    $data = [];
+    while($row=$result->fetch_assoc()){
+        $data[$row['status_name']]=$row['sum'];
+    }
+    return $data;
+}
+
+if(isset($_GET['select1'])){
+    $type=$_GET['type'] ?? 'bar';
+    $a=(int)$_GET['select1'];   
+    $year = get_status_year_sum($a);
+    $labels = implode(',',array_keys($year));
+    $sum = implode(',',$year);
+    $label="Информация по годам";
+    $labels = explode(',', $labels);
+    foreach ($labels as &$label1) {
+        $label1 = "'$label1'";
+    }
+    $labels = implode(',', $labels);
+    $label2 = "Информация за $a";
+}   
 ?>
 <!DOCTYPE html>
 <html>
