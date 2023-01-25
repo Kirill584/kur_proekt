@@ -32,8 +32,33 @@
 				<h2>Статистика</h2>
 				<p>На данной странице вы можете узнать немного статистики.</p>
 			</div>
-
-
+            <form action="statistic.php">
+                <button name='year' class='year'>Посмотреть года выпуска автомобилей</button>
+            </form>
+            <form action="statistic.php">
+                <select class="select" name='select1' id='select1'>
+                    <?php for($i = 2011; $i <= date('Y'); $i++): ?>
+                        <option value="<?php echo $i; ?>" <?php if(isset($_GET['select1'])&&$_GET['select1']==$i) echo "selected" ?>><?php echo $i; ?></option>
+                    <?php endfor; ?>
+                </select>
+                <select class="select1" name='select2' id='select2'>
+                        <option selected></option>
+                    <?php for($i = 2011; $i <= date('Y'); $i++): ?>
+                        <option value="<?php echo $i; ?>" <?php if(isset($_GET['select2'])&&$_GET['select2']==$i) echo "selected" ?>><?php echo $i; ?></option>
+                    <?php endfor; ?>
+                </select>
+                <select class="type" name='type' id='type'>
+                        <option value="bar">Bar</option>
+                        <option value="line">Line</option>
+                        <option value="pie">Pie</option>
+                </select>
+                <button class='select_btn'>Посмотреть</button>
+            </form>
+	</div>
+		<div class="container">
+			
+		</div>
+	</section>
 
 <footer class="footer-section">
 		<div class="container">
