@@ -1,4 +1,63 @@
+<?php
+$db_host = 'localhost';
+$db_user = 'root'; 
+$db_password = ''; 
+$database = 'kur_pr'; 
+$mysql = mysqli_connect($db_host, $db_user, $db_password);
+mysqli_select_db($mysql, $database) or die("Cannot connect DB");
+// $query = "SELECT VehicleBrand as brand, COUNT(VehicleBrand) as sum FROM drivers Group By VehicleBrand"; 
+// $result = mysqli_query($mysql, $query);
+// $row_cnt = $result->num_rows;
+// $Ar = mysqli_fetch_array($result);
 
+function debug($data){
+    echo '<pre>'.print_r($data,1).'</pre>';
+}
+
+// function get_brand_sum(){
+//     global $mysql;
+//     $query = "SELECT VehicleBrand as brand, COUNT(VehicleBrand) as sum FROM drivers Group By VehicleBrand"; 
+//     $result = mysqli_query($mysql, $query);
+//     $data = [];
+//     while($row=$result->fetch_assoc()){
+//         $data[$row['brand']]=$row['sum'];
+//     }
+//     return $data;
+// }
+// //debug(get_brand_sum());
+// if(isset($_GET['brand'])){
+//     $brand = get_brand_sum();
+//     $labels = implode(',',array_keys($brand));
+//     $sum = implode(',',$brand);
+//     $label = 'Марки автомобилей';
+//     $labels = explode(',', $labels);
+//     foreach ($labels as &$label) {
+//         $label = "'$label'";
+//     }
+//     $labels = implode(',', $labels);
+// }
+
+function get_year_sum(){
+    global $mysql;
+    $query = "SELECT VehicleYear as year, COUNT(VehicleYear) as sum FROM drivers Group By VehicleYear"; 
+    $result = mysqli_query($mysql, $query);
+    $data = [];
+    while($row=$result->fetch_assoc()){
+        $data[$row['year']]=$row['sum'];
+    }
+    return $data;
+}
+
+if(isset($_GET['year'])){
+    $type='bar';
+    $year = get_year_sum();
+    $labels = implode(',',array_keys($year));
+    $sum = implode(',',$year);
+    $label = 'Года автомобилей';
+    $label2 = 'Года автомобилей';
+
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,14 +159,14 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/main.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const labels = [];
+<script>
+        const labels = [<?php echo $labels; ?>];
 
         const data = {
             labels: labels,
             datasets: [
                 {
-                    label: '',
+                    label: '<?php echo $label2; ?>',
                     backgroundColor:[
                         '#00FF00',
                         '#20B2AA',
@@ -116,10 +175,10 @@
                     ],
                     borderColor: '#20B2AA',
                     hoverOffset: 4,
-                    data: [],
+                    data: [<?php echo $sum; ?>],
                 },
                 {
-                    label: '',
+                    label: '<?php if(isset($label3)){echo $label3; }?>',
                     backgroundColor:[
                         '#00FF00',
                         '#20B2AA',
@@ -128,13 +187,13 @@
                     ],
                     borderColor: '#00FF00',
                     hoverOffset: 4,
-                    data: [],
+                    data: [<?php if(isset($sum1)){echo $sum1; }?>],
                 },
             ]
         };
 
         const config = {
-            type: '',
+            type: '<?php echo $type; ?>',
             data: data, 
             options: {
                 indexAxis: 'x',
@@ -145,7 +204,7 @@
                     },
                     title:{
                         display: true,
-                        text:''
+                        text:'<?php echo $label; ?>'
                     }
                 }
             }
@@ -156,6 +215,5 @@
             config
         );
     </script>
-
 </body>
 </html>
