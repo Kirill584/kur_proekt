@@ -26,6 +26,7 @@
 		</a>
         
     <section class="hero-section set-bg" data-setbg="img/fon.jpg">
+			<a href='statistic.php' class="statistic">Статистика</a>
         <div class="container">
                 <div class="section-titlee">
                     <h2>Проверка водителя по номеру автомобиля</h2>

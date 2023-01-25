@@ -153,6 +153,7 @@ $status = $Arrr['Status'];
 	</section>
 
     <section class="intro-section spad">
+	<a href='statistic.php' class="statistic">Статистика</a>
 		<div class="container">
 		<?php if (isset($status) && $status=='	Действующее	'){
 			echo '<div class="section-titleee">
