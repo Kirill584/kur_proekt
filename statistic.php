@@ -60,6 +60,17 @@
 		</div>
 	</section>
 
+    <section class="intro-section spad">
+		<div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                <div>
+                    <canvas width="600" height="430" id="myChart"></canvas>
+                </div>
+            </div>
+		</div>
+	</section>
+
 <footer class="footer-section">
 		<div class="container">
 			<div class="row text-white">
@@ -89,6 +100,62 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/main.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = [];
+
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: '',
+                    backgroundColor:[
+                        '#00FF00',
+                        '#20B2AA',
+                        '#7B68EE',
+                        '#8A2BE2'
+                    ],
+                    borderColor: '#20B2AA',
+                    hoverOffset: 4,
+                    data: [],
+                },
+                {
+                    label: '',
+                    backgroundColor:[
+                        '#00FF00',
+                        '#20B2AA',
+                        '#7B68EE',
+                        '#8A2BE2'
+                    ],
+                    borderColor: '#00FF00',
+                    hoverOffset: 4,
+                    data: [],
+                },
+            ]
+        };
+
+        const config = {
+            type: '',
+            data: data, 
+            options: {
+                indexAxis: 'x',
+                plugins:{
+                    legend:{
+                        display: true,
+                        position: 'bottom',
+                    },
+                    title:{
+                        display: true,
+                        text:''
+                    }
+                }
+            }
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
 
 </body>
 </html>
