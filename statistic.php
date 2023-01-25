@@ -82,6 +82,29 @@ if(isset($_GET['select1'])){
     $labels = implode(',', $labels);
     $label2 = "Информация за $a";
 }   
+function get_status_year_2_sum(int $year){
+    global $mysql;
+    $query = "SELECT Status as status_name, COUNT(Status) as sum FROM drivers where year(EditDate) = $year Group By Status"; 
+    $result = mysqli_query($mysql, $query);
+    $data = [];
+    while($row=$result->fetch_assoc()){
+        $data[$row['status_name']]=$row['sum'];
+    }
+    return $data;
+}
+
+if(isset($_GET['select2'])){  
+    $b=(int)$_GET['select2'];  
+    $year = get_status_year_2_sum($b);
+    $labels1 = implode(',',array_keys($year));
+    $sum1 = implode(',',$year);
+    $labels1 = explode(',', $labels1);
+    foreach ($labels1 as &$label4) {
+        $label4 = "'$label4'";
+    }
+    $labels1 = implode(',', $labels1);
+    $label3 = "Информация за $b";
+}   
 ?>
 <!DOCTYPE html>
 <html>
