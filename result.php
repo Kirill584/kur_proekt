@@ -1,10 +1,5 @@
 <?php
-$db_host = 'localhost';
-$db_user = 'root'; 
-$db_password = ''; 
-$database = 'kur_pr'; 
-$mysql = mysqli_connect($db_host, $db_user, $db_password);
-mysqli_select_db($mysql, $database) or die("Cannot connect DB");
+include('db_connect.php');
 $number=$_GET['number'];
 $query = "SELECT * FROM drivers WHERE VehicleNumber='	$number	'"; 
 $queryy = "SELECT * FROM drivers WHERE VehicleNumber='	$number'"; 
@@ -100,6 +95,7 @@ if($row_cnttt!=0){
 $status = $Arrr['Status'];
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -129,6 +125,7 @@ $status = $Arrr['Status'];
 		</a>
 
 	<section class="hero-section set-bg" data-setbg="img/fon.jpg">
+		<a href='statistic.php' class="statistic">Статистика</a>
 	<div class="container">
 			<div class="section-titlee">
 				<h2>Проверка водителя по номеру автомобиля</h2>
@@ -152,24 +149,23 @@ $status = $Arrr['Status'];
 		</div>
 	</section>
 
-    <section class="intro-section spad">
-	<a href='statistic.php' class="statistic">Статистика</a>
+	<section class="intro-section spad">
 		<div class="container">
 		<?php if (isset($status) && $status=='	Действующее	'){
 			echo '<div class="section-titleee">
-				<h2>Статус разрешения: '.$status.'</h2>
+				<h2>Статус: '.$status.'</h2>
 			<h3>У данного водителя есть разрешение на осуществление деятельности по перевозке пассажиров и багажа легковым такси. Счастливого пути!</h3>
 			</div>'; 
 			}
 			else if($row_cnt==0 && $row_cntt==0 && $row_cnttt==0){
 				echo '<div class="section-titleee">
-				<h4>Статус разрешения: Нет разрешения</h4>
+				<h4>Статус: Нет разрешения</h4>
 			<h3>У данного водителя нет разрешения на осуществление деятельности по перевозке пассажиров и багажа легковым такси. Попробуте найти другого водителя. Будьте осторожны!</h3>
 			</div>'; 
 			}
 			else{
 				echo '<div class="section-titleee">
-				<h4>Статус разрешения: '.$status.'</h4>
+				<h4>Статус: '.$status.'</h4>
 			<h3>У данного водителя нет разрешения на осуществление деятельности по перевозке пассажиров и багажа легковым такси. Попробуте найти другого водителя. Будьте осторожны!</h3>
 			</div>'; 
 			}
@@ -199,6 +195,7 @@ $status = $Arrr['Status'];
 							</div>
 						</div>
 					</div>
+					Открытые данные взяты с сайта <a href="https://data.mos.ru/">data.mos.ru.</a>
 				</div>
 				<div class="col-lg-2 col-md-3 col-sm-6">
 					<div class="footer-widger">
@@ -215,7 +212,12 @@ $status = $Arrr['Status'];
 
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/main.js"></script>
 
 </body>
+
 </html>
+
+

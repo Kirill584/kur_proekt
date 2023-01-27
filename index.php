@@ -24,33 +24,33 @@
 		<a class="site-logo">
 			<img src="img/logo2.png" alt="">
 		</a>
-        
-    <section class="hero-section set-bg" data-setbg="img/fon.jpg">
-			<a href='statistic.php' class="statistic">Статистика</a>
-        <div class="container">
-                <div class="section-titlee">
-                    <h2>Проверка водителя по номеру автомобиля</h2>
-                    <p>Введите номер автомобиля и убедитесь в безопасности поездки с данным водителем</p>
-                </div>
-            </div>
-                <div class="container">
-                        <form class="main-search-form" action="result.php" method="$_GET">
-                            <!-- <div class="search-input">
-                                <input class="search-input" name="number" type="text" placeholder="Введите номер автомобиля" required>
-                                <button class="site-btn">Поиск</button>
-                            </div> -->
-                            <div class="vegukonem-nenkaepren">
-                                <div class="vedanageous">
-                                    <input type="text" class="input" name="number" placeholder="Введите номер автомобиля" required pattern="[АВЕКМНОРСТУХ]{1}\d{3}[АВЕКМНОРСТУХ]{2}\d{1,3}|[АВЕКМНОРСТУХ]{2}\d{5}">
-                                    <button class="search-btn"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+		
+	<section class="hero-section set-bg" data-setbg="img/fon.jpg">
+		<a href='statistic.php' class="statistic">Статистика</a>
+	<div class="container">
+			<div class="section-titlee">
+				<h2>Проверка водителя по номеру автомобиля</h2>
+				<p>Введите номер автомобиля и убедитесь в безопасности поездки с данным водителем</p>
+			</div>
+	</div>
+		<div class="container">
+				<form class="main-search-form" action="result.php" method="$_GET">
+					<!-- <div class="search-input">
+						<input class="search-input" name="number" type="text" placeholder="Введите номер автомобиля" required>
+						<button class="site-btn">Поиск</button>
+					</div> -->
+					<div class="vegukonem-nenkaepren">
+  						<div class="vedanageous">
+							<input type="text" class="input" name="number" placeholder="Введите номер автомобиля" required pattern="[АВЕКМНОРСТУХ]{1}\d{3}[АВЕКМНОРСТУХ]{2}\d{1,3}|[АВЕКМНОРСТУХ]{2}\d{5}">
+							<button class="search-btn"><i class="fa fa-search"></i></button>
+  						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</section>
 
-<footer class="footer-section">
+	<footer class="footer-section">
 		<div class="container">
 			<div class="row text-white">
 				<div class="col-lg-4">
@@ -61,6 +61,7 @@
 							</div>
 						</div>
 					</div>
+					Открытые данные взяты с сайта <a href="https://data.mos.ru/">data.mos.ru.</a>
 				</div>
 				<div class="col-lg-2 col-md-3 col-sm-6">
 					<div class="footer-widger">
@@ -77,6 +78,8 @@
 
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/main.js"></script>
 
 </body>

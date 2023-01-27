@@ -1,10 +1,5 @@
 <?php
-$db_host = 'localhost';
-$db_user = 'root'; 
-$db_password = ''; 
-$database = 'kur_pr'; 
-$mysql = mysqli_connect($db_host, $db_user, $db_password);
-mysqli_select_db($mysql, $database) or die("Cannot connect DB");
+include('db_connect.php');
 // $query = "SELECT VehicleBrand as brand, COUNT(VehicleBrand) as sum FROM drivers Group By VehicleBrand"; 
 // $result = mysqli_query($mysql, $query);
 // $row_cnt = $result->num_rows;
@@ -53,10 +48,10 @@ if(isset($_GET['year'])){
     $year = get_year_sum();
     $labels = implode(',',array_keys($year));
     $sum = implode(',',$year);
-    $label = 'Года автомобилей';
-    $label2 = 'Года автомобилей';
-
+    $label = 'Года выпуска автомобилей';
+    $label2 = 'Года выпуска автомобилей';
 }
+
 function get_status_year_sum(int $year){
     global $mysql;
     $query = "SELECT Status as status_name, COUNT(Status) as sum FROM drivers where year(EditDate) = $year Group By Status"; 
@@ -82,20 +77,21 @@ if(isset($_GET['select1'])){
     $labels = implode(',', $labels);
     $label2 = "Информация за $a";
 }   
-function get_status_year_2_sum(int $year){
-    global $mysql;
-    $query = "SELECT Status as status_name, COUNT(Status) as sum FROM drivers where year(EditDate) = $year Group By Status"; 
-    $result = mysqli_query($mysql, $query);
-    $data = [];
-    while($row=$result->fetch_assoc()){
-        $data[$row['status_name']]=$row['sum'];
-    }
-    return $data;
-}
+
+    // function get_status_year_2_sum(int $year){
+    //     global $mysql;
+    //     $query = "SELECT Status as status_name, COUNT(Status) as sum FROM drivers where year(EditDate) = $year Group By Status"; 
+    //     $result = mysqli_query($mysql, $query);
+    //     $data = [];
+    //     while($row=$result->fetch_assoc()){
+    //         $data[$row['status_name']]=$row['sum'];
+    //     }
+    //     return $data;
+    // }
 
 if(isset($_GET['select2'])){  
     $b=(int)$_GET['select2'];  
-    $year = get_status_year_2_sum($b);
+    $year = get_status_year_sum($b);
     $labels1 = implode(',',array_keys($year));
     $sum1 = implode(',',$year);
     $labels1 = explode(',', $labels1);
@@ -133,16 +129,20 @@ if(isset($_GET['select2'])){
 			<img src="img/logo2.png" alt="">
 		</a>
 
-        <section class="hero-section1 set-bg" data-setbg="img/fon.jpg">
-	        <div class="container">
+    <section class="hero-section set-bg" data-setbg="img/fon.jpg">
+	<div class="container">
 			<div class="section-titleeee">
 				<h2>Статистика</h2>
 				<p>На данной странице вы можете узнать немного статистики.</p>
 			</div>
             <form action="statistic.php">
+                <div class="label">
+                    <label>Нажав на кнопку, вы сможете посмотреть <br> количество автомобилей каждого года</br></label>
+                </div>
                 <button name='year' class='year'>Посмотреть года выпуска автомобилей</button>
             </form>
             <form action="statistic.php">
+                <label class="label1">Здесь вы можете выбрать год(а) и вид диаграммы и узнать количество водителей по разным состояниям их разрешений, а также сравнить состояния по двум разным годам</label>
                 <select class="select" name='select1' id='select1'>
                     <?php for($i = 2011; $i <= date('Y'); $i++): ?>
                         <option value="<?php echo $i; ?>" <?php if(isset($_GET['select1'])&&$_GET['select1']==$i) echo "selected" ?>><?php echo $i; ?></option>
@@ -155,9 +155,9 @@ if(isset($_GET['select2'])){
                     <?php endfor; ?>
                 </select>
                 <select class="type" name='type' id='type'>
-                        <option value="bar">Bar</option>
-                        <option value="line">Line</option>
-                        <option value="pie">Pie</option>
+                        <option value="bar" <?php if(isset($_GET['type'])&&$_GET['type']=='bar') echo "selected" ?>>Гистограмма</option>
+                        <option value="line" <?php if(isset($_GET['type'])&&$_GET['type']=='line') echo "selected" ?>>Линейная</option>
+                        <option value="pie" <?php if(isset($_GET['type'])&&$_GET['type']=='pie') echo "selected" ?>>Круговая</option>
                 </select>
                 <button class='select_btn'>Посмотреть</button>
             </form>
@@ -166,19 +166,20 @@ if(isset($_GET['select2'])){
 			
 		</div>
 	</section>
-
+    
     <section class="intro-section spad">
 		<div class="container">
             <div class="row">
                 <div class="col-md-12">
-                <div>
-                    <canvas width="600" height="430" id="myChart"></canvas>
+                <div class="message">
+                    <?php if(!isset($_GET['year']) && !isset($_GET['select1']) && !isset($_GET['select2'])){ echo "Данные не выбраны"; }?>
                 </div>
+                    <canvas width="400" height="280" id="myChart"></canvas>
             </div>
 		</div>
 	</section>
 
-<footer class="footer-section">
+	<footer class="footer-section">
 		<div class="container">
 			<div class="row text-white">
 				<div class="col-lg-4">
@@ -189,6 +190,7 @@ if(isset($_GET['select2'])){
 							</div>
 						</div>
 					</div>
+                    Открытые данные взяты с сайта <a href="https://data.mos.ru/">data.mos.ru.</a>
 				</div>
 				<div class="col-lg-2 col-md-3 col-sm-6">
 					<div class="footer-widger">
@@ -205,9 +207,11 @@ if(isset($_GET['select2'])){
 
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/main.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+    <script>
         const labels = [<?php echo $labels; ?>];
 
         const data = {
@@ -219,7 +223,10 @@ if(isset($_GET['select2'])){
                         '#00FF00',
                         '#20B2AA',
                         '#7B68EE',
-                        '#8A2BE2'
+                        '#8A2BE2',
+                        '#B22222',
+                        '#FFFF00',
+                        '#EE82EE'
                     ],
                     borderColor: '#20B2AA',
                     hoverOffset: 4,
@@ -231,7 +238,10 @@ if(isset($_GET['select2'])){
                         '#00FF00',
                         '#20B2AA',
                         '#7B68EE',
-                        '#8A2BE2'
+                        '#8A2BE2',
+                        '#B22222',
+                        '#FFFF00',
+                        '#EE82EE'
                     ],
                     borderColor: '#00FF00',
                     hoverOffset: 4,
@@ -263,5 +273,6 @@ if(isset($_GET['select2'])){
             config
         );
     </script>
+
 </body>
 </html>
